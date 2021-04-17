@@ -1,0 +1,9 @@
+make -j 8 bzImage
+echo "bzImage generated"
+make -j 8 modules
+echo "modules generated"
+make modules_install
+echo "modules insalled"
+make install
+echo "kernel installed"
+poweroff

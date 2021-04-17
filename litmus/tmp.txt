@@ -1,0 +1,194 @@
+28c28
+< /* For resolving Eclipse parsing errors, it does not affect the compiled code
+---
+> /* For resolving Eclipse parsing errors, it does not affect the compiled code */
+35d34
+< */
+157c156
+< static void init_server(
+---
+> static void __attribute__((optimize("O0"))) init_server(
+305c304
+< static void run_add_ready(
+---
+> static void __attribute__((optimize("O0"))) run_add_ready(
+327c326
+< static struct task_struct* run_take_ready(
+---
+> static struct task_struct* __attribute__((optimize("O0"))) run_take_ready(
+340c339
+< static struct task_struct* run_peek_ready(
+---
+> static struct task_struct* __attribute__((optimize("O0"))) run_peek_ready(
+358c357
+< static noinline void requeue(
+---
+> static noinline void __attribute__((optimize("O0"))) requeue(
+442c441
+< static inline void upd_dl_on_tree(
+---
+> static void upd_dl_on_tree(
+542c541
+< static inline int preemption_needed(
+---
+> static int __attribute__((optimize("O0"))) preemption_needed(
+566c565
+< static inline void node_update_timer(
+---
+> void node_update_timer(
+829c828
+< static inline void _update_r_node(
+---
+> static void _update_r_node(
+972c971
+< static void run_resched_servers(
+---
+> static void __attribute__((optimize("O0"))) run_resched_servers(
+1192c1191
+< static void run_release_jobs(
+---
+> static void __attribute__((optimize("O0"))) run_release_jobs(
+1384c1383
+< static inline struct task_struct* set_next_task_check_helping(
+---
+> static inline struct task_struct* __attribute__((optimize("O0"))) set_next_task_check_helping(
+1454c1453
+< static struct task_struct* run_schedule(
+---
+> static struct task_struct* __attribute__((optimize("O0"))) run_schedule(
+1723c1722
+< static void run_release_at(
+---
+> static void __attribute__((optimize("O0"))) run_release_at(
+1748c1747
+< static void run_task_new(
+---
+> static void __attribute__((optimize("O0"))) run_task_new(
+1780c1779
+< static void run_task_wake_up(struct task_struct *task)
+---
+> static void __attribute__((optimize("O0"))) run_task_wake_up(struct task_struct *task)
+1820c1819
+< static void run_task_exit(
+---
+> static void __attribute__((optimize("O0"))) run_task_exit(
+1939c1938
+< static long run_admit_task(
+---
+> static long __attribute__((optimize("O0"))) run_admit_task(
+2036c2035
+< static enum hrtimer_restart on_exit_experiments(struct hrtimer *timer) {
+---
+> static enum hrtimer_restart __attribute__((optimize("O0"))) on_exit_experiments(struct hrtimer *timer) {
+2134c2133
+< static inline struct run_resource* run_sem_from_lock (
+---
+> static inline struct run_resource* __attribute__((optimize("O0"))) run_sem_from_lock (
+2186c2185
+< int lock_run_semaphore(
+---
+> int __attribute__((optimize("O0"))) lock_run_semaphore(
+2350c2349
+< static inline int busy_wait_for_resource(
+---
+> static inline int __attribute__((optimize("O0"))) busy_wait_for_resource(
+2395c2394
+< static int unlock_run_semaphore(
+---
+> static int __attribute__((optimize("O0"))) unlock_run_semaphore(
+2603c2602
+< static void free_run_semaphore(
+---
+> void free_run_semaphore(
+2616c2615
+< static int open_run_semaphore(
+---
+> static int __attribute__((optimize("O0"))) open_run_semaphore(
+2683c2682
+< static struct litmus_lock* new_run_resource (void)
+---
+> static struct litmus_lock* __attribute__((optimize("O0"))) new_run_resource (void)
+2724a2724,2743
+> long run_wait_for_release_at(lt_t release_time)
+> {
+> 	struct task_struct *t = current;
+> 	unsigned long flags;
+> 
+> 	#ifdef WANT_DEBUG_LITMUS_EVENTS
+> 	TRACE_TASK(t, "run_wait_for_release_at(%llu) at %llu\n", release_time, litmus_clock());
+> 	#endif
+> 
+> 	raw_spin_lock_irqsave(&slock, flags);
+> 
+> 	release_at(t, release_time);
+> 
+> 	trace_litmus_sys_release(&release_time);
+> 
+> 	raw_spin_unlock_irqrestore(&slock, flags);
+> 
+> 	return litmus->complete_job();
+> }
+> 
+2732a2752,2769
+> /* _finish_switch - we just finished the switch away from prev
+>  */
+> static void __attribute__((optimize("O0"))) run_finish_switch(struct task_struct *prev)
+> {
+> 	#ifdef WANT_ALL_SCHED_EVENTS
+> 	if (is_realtime(prev))
+> 		TRACE_TASK(prev, "Switched away. Current %s Task:%d, now:%llu\n", is_realtime(current) ? "RT": "NonRT", current->pid, litmus_clock());
+> 	#endif
+> }
+> 
+> static void run_next_became_invalid(struct task_struct *next)
+> {
+> 	#ifdef WANT_ALL_SCHED_EVENTS
+> 	if (is_realtime(next))
+> 		TRACE_TASK(next, "Task become invalid\n");
+> 	#endif
+> }
+> 
+2744a2782
+> /*	.wait_for_release_at = run_wait_for_release_at, */
+2746c2784,2786
+< 	.complete_job      = complete_job
+---
+> 	.complete_job      = complete_job,
+> 	.finish_switch     = run_finish_switch,
+> 	.next_became_invalid = run_next_became_invalid,
+2759c2799
+< static inline int task_is_running(
+---
+> static inline int __attribute__((optimize("O0"))) task_is_running(
+2780c2820
+< static inline int is_busy_waiting_for(
+---
+> static inline int __attribute__((optimize("O0"))) is_busy_waiting_for(
+2804c2844
+< static inline void reset_helping_task(
+---
+> static inline void __attribute__((optimize("O0"))) reset_helping_task(
+2827c2867
+< static inline void reset_helping_task_no_requeue(
+---
+> static inline void __attribute__((optimize("O0"))) reset_helping_task_no_requeue(
+2862c2902
+< static inline int holding_task_is_running(
+---
+> static inline int __attribute__((optimize("O0"))) holding_task_is_running(
+2872c2912
+< static inline void unqueue_task_preempted(
+---
+> static inline void __attribute__((optimize("O0"))) unqueue_task_preempted(
+2890c2930
+< static inline void set_helping_task(
+---
+> static inline void __attribute__((optimize("O0"))) set_helping_task(
+2925c2965
+< static inline int higher_preemption_level(
+---
+> int __attribute__((optimize("O0"))) higher_preemption_level(
+2937c2977
+< static inline int is_task_need_for_helping(struct task_struct* t)
+---
+> static inline int __attribute__((optimize("O0"))) is_task_need_for_helping(struct task_struct* t)

@@ -1,0 +1,5 @@
+make -j 8 bzImage
+echo "bzImage generated"
+make install
+echo "kernel installed"
+#reboot

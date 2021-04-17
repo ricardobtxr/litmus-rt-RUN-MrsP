@@ -1,0 +1,62 @@
+litmus/sched_run.c: In function ‘run_schedule’:
+litmus/sched_run.c:1400:26: error: implicit declaration of function ‘is_running’ [-Werror=implicit-function-declaration]
+     blocks  = exists && !is_running(entry->sched);
+                          ^
+litmus/sched_run.c:1463:31: error: implicit declaration of function ‘is_np’ [-Werror=implicit-function-declaration]
+       np          = exists && is_np(just_prev);
+                               ^
+litmus/sched_run.c:1489:9: error: implicit declaration of function ‘request_exit_np’ [-Werror=implicit-function-declaration]
+         request_exit_np(just_prev);
+         ^
+litmus/sched_run.c: At top level:
+litmus/sched_run.c:2405:3: error: unknown field ‘release_at’ specified in initializer
+   .release_at        = run_release_at,
+   ^
+litmus/sched_run.c:2405:24: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+   .release_at        = run_release_at,
+                        ^
+litmus/sched_run.c:2405:24: note: (near initialization for ‘run_plugin.wait_for_release_at’)
+litmus/sched_run.c:2428:1: warning: data definition has no type or storage class
+ module_init(init_run);
+ ^
+litmus/sched_run.c:2428:1: error: type defaults to ‘int’ in declaration of ‘module_init’ [-Werror=implicit-int]
+litmus/sched_run.c:2428:1: warning: parameter names (without types) in function declaration
+litmus/sched_run.c:2429:1: warning: data definition has no type or storage class
+ module_exit(clean_run);
+ ^
+litmus/sched_run.c:2429:1: error: type defaults to ‘int’ in declaration of ‘module_exit’ [-Werror=implicit-int]
+litmus/sched_run.c:2429:1: warning: parameter names (without types) in function declaration
+litmus/sched_run.c:520:13: warning: ‘_update_deadline_on_tree’ defined but not used [-Wunused-function]
+ static void _update_deadline_on_tree(
+             ^
+litmus/sched_run.c:2418:19: warning: ‘init_run’ defined but not used [-Wunused-function]
+ static int __init init_run(void)
+                   ^
+litmus/sched_run.c:2423:13: warning: ‘clean_run’ defined but not used [-Wunused-function]
+ static void clean_run(void)
+             ^
+cc1: some warnings being treated as errors
+scripts/Makefile.build:293: recipe for target 'litmus/sched_run.o' failed
+make[1]: *** [litmus/sched_run.o] Error 1
+Makefile:989: recipe for target 'litmus' failed
+make: *** [litmus] Error 2
+make: *** Waiting for unfinished jobs....
+  CC      arch/x86/pci/xen.o
+  CC      drivers/base/regmap/regmap-i2c.o
+In file included from kernel/sched/litmus.c:5:0:
+kernel/sched/litmus.c: In function ‘pick_next_task_litmus’:
+./include/litmus/trace.h:143:32: error: implicit declaration of function ‘TIMESTAMP’ [-Werror=implicit-function-declaration]
+ #define TS_PLUGIN_SCHED_START  TIMESTAMP(120)  /* currently unused */
+                                ^
+kernel/sched/litmus.c:275:2: note: in expansion of macro ‘TS_PLUGIN_SCHED_START’
+  TS_PLUGIN_SCHED_START;
+  ^
+  CC      drivers/acpi/acpica/exnames.o
+cc1: some warnings being treated as errors
+scripts/Makefile.build:293: recipe for target 'kernel/sched/litmus.o' failed
+make[2]: *** [kernel/sched/litmus.o] Error 1
+scripts/Makefile.build:544: recipe for target 'kernel/sched' failed
+make[1]: *** [kernel/sched] Error 2
+Makefile:989: recipe for target 'kernel' failed
+make: *** [kernel] Error 2
+
